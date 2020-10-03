@@ -29,11 +29,12 @@ def log(x: np.ndarray) -> np.ndarray:
     """
     Log activation function (natural algorithm)
 
+    :url: http://jmlda.org/papers/doc/2011/no1/Rudoy2011Selection.pdf#page=12
     :param x: input matrix
     :return: resulted matrix
     """
 
-    return np.log(x)
+    return np.log(x + np.sqrt(x**2 + 1))
 
 
 def log_der(x: np.ndarray) -> np.ndarray:
@@ -44,4 +45,4 @@ def log_der(x: np.ndarray) -> np.ndarray:
     :return: resulted matrix
     """
 
-    return 1 / x
+    return 1 / (np.sqrt(x**2 + 1))

@@ -4,8 +4,6 @@ from typing import List
 import numpy as np
 from tqdm import tqdm
 
-import matplotlib.pyplot as plt
-
 from network.jordan_network import Jordan
 from data.datasets import FibonacciDataset
 from data.base_dataset import BaseDataset
@@ -58,39 +56,29 @@ def eval_mode(network: Jordan, dataset: BaseDataset):
 
 if __name__ == '__main__':
     config = {
-        'lr': 10,
+        'lr': 0.03,
         'momentum': 0.1,
         'n_epochs': 2000
     }
 
-    dataset = FibonacciDataset(max_dataset_length=12)
+    dataset = FibonacciDataset(max_dataset_length=15)
 
     in_features = dataset.max_value
     out_features = dataset.max_value
 
     print(in_features)
 
-    for i in range(50):
-        network = Jordan(lr=config['lr'],
-                         momentum=config['momentum'],
-                         shape=[in_features, 100, out_features])
+    network = Jordan(lr=config['lr'],
+                     momentum=config['momentum'],
+                     shape=[in_features, 100, out_features])
 
-        errors_list = train_model(network=network,
-                                  dataset=dataset,
-                                  n_epochs=config['n_epochs'])
-        accuracy = eval_mode(network=network,
-                             dataset=dataset)
+    errors_list = train_model(network=network,
+                              dataset=dataset,
+                              n_epochs=config['n_epochs'])
+    accuracy = eval_mode(network=network,
+                         dataset=dataset)
 
-        config['lr'] = config['lr'] * 0.5
+    config['lr'] = config['lr'] * 0.5
 
-        print(f'Current lr: {config["lr"]}. Accuracy: {accuracy}.')
-        if accuracy > 0.5:
-            print(f'Learning rate: {config["lr"]}')
-            break
+    print(f'Accuracy: {accuracy}')
 
-    # print(f'Accuracy: {accuracy}')
-    #
-    # plt.title(f'Error of the network')
-    #
-    # plt.plot(list(range(len(errors_list))), errors_list)
-    # plt.show()

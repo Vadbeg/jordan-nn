@@ -34,7 +34,12 @@ def log(x: np.ndarray) -> np.ndarray:
     :return: resulted matrix
     """
 
-    return np.log(x + np.sqrt(x**2 + 1))
+    res = np.log(x + np.sqrt(x**2 + 1))
+    res[x > 74.2] = 5
+    res[x < -74.2] = -5
+    res = res / 5
+
+    return res
 
 
 def log_der(x: np.ndarray) -> np.ndarray:
@@ -45,4 +50,9 @@ def log_der(x: np.ndarray) -> np.ndarray:
     :return: resulted matrix
     """
 
-    return 1 / (np.sqrt(x**2 + 1))
+    res = 1 / (np.sqrt(x**2 + 1))
+    res[x > 74.2] = 0
+    res[x < -74.2] = 0
+    res = res / 5
+
+    return res

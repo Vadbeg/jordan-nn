@@ -1,15 +1,20 @@
 import math
+from typing import List
 
 import numpy as np
 from tqdm import tqdm
+
+import matplotlib.pyplot as plt
 
 from network.jordan_network import Jordan
 from data.datasets import FibonacciDataset
 from data.base_dataset import BaseDataset
 
 
-def train_model(network: Jordan, dataset: BaseDataset, n_epochs: int):
+def train_model(network: Jordan, dataset: BaseDataset, n_epochs: int) -> List[float]:
     tqdm_epochs = tqdm(range(n_epochs), postfix=f'Epochs...')
+
+    total_error_list = list()
 
     for _ in tqdm_epochs:
         errors_epoch_list = list()
@@ -21,9 +26,15 @@ def train_model(network: Jordan, dataset: BaseDataset, n_epochs: int):
 
             errors_epoch_list.append(error)
 
+        average_error = sum(errors_epoch_list) / len(errors_epoch_list)
+
         tqdm_epochs.set_postfix(
             text=f'Epochs... Average error: {sum(errors_epoch_list) / len(errors_epoch_list):.2f}'
         )
+
+        total_error_list.append(average_error)
+
+    return total_error_list
 
 
 def eval_mode(network: Jordan, dataset: BaseDataset):
@@ -47,26 +58,39 @@ def eval_mode(network: Jordan, dataset: BaseDataset):
 
 if __name__ == '__main__':
     config = {
-        'lr': 0.00001,
+        'lr': 10,
         'momentum': 0.1,
-        'n_epochs': 200000
+        'n_epochs': 2000
     }
 
-    dataset = FibonacciDataset(max_dataset_length=7)
+    dataset = FibonacciDataset(max_dataset_length=12)
 
     in_features = dataset.max_value
     out_features = dataset.max_value
 
     print(in_features)
 
-    network = Jordan(lr=config['lr'],
-                     momentum=config['momentum'],
-                     shape=[in_features, 15, out_features])
+    for i in range(50):
+        network = Jordan(lr=config['lr'],
+                         momentum=config['momentum'],
+                         shape=[in_features, 100, out_features])
 
-    train_model(network=network,
-                dataset=dataset,
-                n_epochs=config['n_epochs'])
-    accuracy = eval_mode(network=network,
-                         dataset=dataset)
+        errors_list = train_model(network=network,
+                                  dataset=dataset,
+                                  n_epochs=config['n_epochs'])
+        accuracy = eval_mode(network=network,
+                             dataset=dataset)
 
-    print(f'Accuracy: {accuracy}')
+        config['lr'] = config['lr'] * 0.5
+
+        print(f'Current lr: {config["lr"]}. Accuracy: {accuracy}.')
+        if accuracy > 0.5:
+            print(f'Learning rate: {config["lr"]}')
+            break
+
+    # print(f'Accuracy: {accuracy}')
+    #
+    # plt.title(f'Error of the network')
+    #
+    # plt.plot(list(range(len(errors_list))), errors_list)
+    # plt.show()

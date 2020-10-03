@@ -4,7 +4,7 @@ from typing import List, Union
 
 import numpy as np
 
-from network.utils import log, log_der
+from network.utils import sigmoid, sigmoid_der, log, log_der
 
 
 class Jordan:

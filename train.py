@@ -56,7 +56,7 @@ def eval_mode(network: Jordan, dataset: BaseDataset):
 
 if __name__ == '__main__':
     config = {
-        'lr': 0.03,
+        'lr': 0.000000003,
         'momentum': 0.1,
         'n_epochs': 2000
     }

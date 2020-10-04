@@ -1,5 +1,7 @@
 """Module with help functions"""
 
+from typing import Union
+
 import numpy as np
 
 
@@ -56,3 +58,26 @@ def log_der(x: np.ndarray) -> np.ndarray:
     res = res / 5
 
     return res
+
+
+def linear(x: np.ndarray) -> np.ndarray:
+    """
+    Linear activation function (natural algorithm)
+
+    :url: http://jmlda.org/papers/doc/2011/no1/Rudoy2011Selection.pdf#page=12
+    :param x: input matrix
+    :return: resulted matrix
+    """
+
+    return x
+
+
+def linear_der(x: np.ndarray) -> Union[np.ndarray, int]:
+    """
+    Derivative of log activation function (natural algorithm)
+
+    :param x: input matrix
+    :return: resulted matrix
+    """
+
+    return 1

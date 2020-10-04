@@ -4,7 +4,9 @@ from typing import List, Union
 
 import numpy as np
 
-from network.utils import sigmoid, sigmoid_der, log, log_der
+from network.utils import (sigmoid, sigmoid_der,
+                           log, log_der,
+                           linear, linear_der)
 
 
 class Jordan:
@@ -71,9 +73,16 @@ class Jordan:
         self.layers[0][0: self.shape[0]] = x
         self.layers[0][self.shape[0]: -1] = self.layers[-1]
 
-        for i in range(1, len(self.shape)):
-            self.layers[i][...] = log(
+        for i in range(1, len(self.shape) - 1):
+            self.layers[i][...] = linear(
                 np.dot(self.layers[i - 1], self.weights[i - 1])
+            )
+
+        if len(self.shape) - 2 >= 0:
+            last_idx = len(self.shape) - 1
+
+            self.layers[last_idx][...] = sigmoid(
+                np.dot(self.layers[last_idx - 1], self.weights[last_idx - 1])
             )
 
         return self.layers[-1]
@@ -92,13 +101,13 @@ class Jordan:
 
         error = target - self.layers[-1]
 
-        last_layer_delta = error * log_der(self.layers[-1])
+        last_layer_delta = error * sigmoid_der(self.layers[-1])
         deltas.append(last_layer_delta)
 
         # TODO: add try catch clause here for negative len(self.shape) - 2
         for i in range(len(self.shape) - 2, 0, -1):
             curr_delta = np.dot(deltas[0],
-                                self.weights[i].T * log_der(self.layers[i]))
+                                self.weights[i].T * linear_der(self.layers[i]))
 
             deltas.insert(0, curr_delta)
 

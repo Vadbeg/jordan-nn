@@ -155,6 +155,36 @@ def cross_entropy_loss_der(y_pred: Union[np.ndarray, List],
     return step
 
 
+def mse_loss(y_pred: Union[np.ndarray, List],
+             y_true: Union[np.ndarray, List]) -> List[Union[float, np.ndarray]]:
+    """
+    Mean squared error loss
+
+    :param y_pred: values predicted by NN (WITHOUT softmax, sigmoid on top of it)
+    :param y_true: true value
+    :return: loss value
+    """
+
+    mse_value = ((y_pred - y_true) ** 2).mean()
+
+    return mse_value
+
+
+def mse_loss_der(y_pred: Union[np.ndarray, List],
+                 y_true: Union[np.ndarray, List]) -> List[Union[float, np.ndarray]]:
+    """
+    Mean squared error loss derivative
+
+    :param y_pred: values predicted by NN (WITHOUT softmax, sigmoid on top of it)
+    :param y_true: true value
+    :return: loss value
+    """
+
+    mse_der_value = - 2 * (y_pred - y_true)
+
+    return mse_der_value
+
+
 if __name__ == '__main__':
     """
 [ 35.29  78.37 -24.12]

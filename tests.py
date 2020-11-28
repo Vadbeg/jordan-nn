@@ -1,14 +1,14 @@
 """Module with testing in different datasets"""
 
-from data.datasets import (FibonacciDataset,
-                           FactorialDataset,
-                           PeriodDataset,
-                           ExponentialDataset)
-from network.jordan_network import Jordan
-from help.plots import draw_error_plot
+from modules.data.datasets import (FibonacciDataset,
+                                   FactorialDataset,
+                                   PeriodDataset,
+                                   ExponentialDataset)
+from modules.network.jordan_network import Jordan
+from modules.help.plots import draw_error_plot
 
-from train import train_model
-from evaluate import eval_model
+from modules.train import train_model
+from modules.evaluate import eval_model
 
 
 def train_eval_fibonacci(verbose: bool = False) -> float:

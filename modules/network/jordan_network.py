@@ -4,12 +4,11 @@ from typing import List, Union
 
 import numpy as np
 
-from network.utils import (sigmoid, sigmoid_der,
-                           softmax, softmax_der,
-                           log, log_der,
-                           linear, linear_der,
-                           cross_entropy_loss,
-                           cross_entropy_loss_der)
+from modules.network.utils import (sigmoid, sigmoid_der,
+                                   linear, linear_der,
+                                   mse_loss, mse_loss_der,
+                                   softmax, cross_entropy_loss,
+                                   cross_entropy_loss_der)
 
 
 class Jordan:
@@ -59,7 +58,7 @@ class Jordan:
 
         for i in range(self.n_layers - 1):
             curr_weights = np.random.randn(self.layers[i].size,
-                                           self.layers[i + 1].size) + np.sqrt(2 / self.layers[i].size)
+                                           self.layers[i + 1].size) * np.sqrt(2 / self.layers[i].size)
 
             weights.append(curr_weights)
 
@@ -77,7 +76,7 @@ class Jordan:
         self.layers[0][self.shape[0]: -1] = self.layers[-1]
 
         for i in range(1, len(self.shape) - 1):
-            self.layers[i][...] = sigmoid(
+            self.layers[i][...] = linear(
                 np.dot(self.layers[i - 1], self.weights[i - 1])
             )
 
@@ -102,33 +101,17 @@ class Jordan:
 
         deltas = list()
 
-        # print(f'-' * 15)
-        # mapped = {0: -1, 1: 0, 2: 1}
-
-        # print(f' --> {mapped[np.argmax(target)]}')
-        # print(f'{self.layers[-1].round(2)} --> {target}')
-
-        # error = target - self.layers[-1]
-        #
-        # last_layer_delta = error * sigmoid_der(self.layers[-1])
-        # print(last_layer_delta.round(2))
-
-        # deltas.append(last_layer_delta)
-
         cross_entropy_loss_number = cross_entropy_loss(y_pred=self.layers[-1],
                                                        y_true=target)
         last_layer_delta = cross_entropy_loss_der(y_pred=self.layers[-1],
                                                   y_true=target)
 
-        # print(f'Last layer der: {last_layer_delta}')
-        # print(self.lr)
         deltas.append(last_layer_delta)
 
         # TODO: add try catch clause here for negative len(self.shape) - 2
         for i in range(len(self.shape) - 2, 0, -1):
             curr_delta = np.dot(deltas[0],
-                                self.weights[i].T * sigmoid_der(self.layers[i]))
-            # print(f'Current delta: {curr_delta}')
+                                self.weights[i].T * linear_der(self.layers[i]))
 
             deltas.insert(0, curr_delta)
 
@@ -137,13 +120,10 @@ class Jordan:
             curr_delta = np.atleast_2d(deltas[i])
 
             curr_dw = np.dot(layer.T, curr_delta)
-            # print(f'First {np.sum(self.lr * curr_dw)}')
-            # print(f'Second {np.sum(self.lr * self.momentum * self.dw[i])}')
 
             self.weights[i] += self.lr * curr_dw + self.lr * self.momentum * self.dw[i]
 
             self.dw[i] = curr_dw
-        # print(f'-' * 15)
 
         return cross_entropy_loss_number
 

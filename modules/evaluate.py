@@ -1,7 +1,7 @@
 """Module with evaluation of NN"""
 
-from network.jordan_network import Jordan
-from data.base_dataset import BaseDataset
+from modules.network.jordan_network import Jordan
+from modules.data.base_dataset import BaseDataset
 
 
 def eval_model(network: Jordan, dataset: BaseDataset):

@@ -2,7 +2,7 @@
 
 from typing import List, Tuple
 
-from data.base_dataset import BaseDataset
+from modules.data.base_dataset import BaseDataset
 
 
 class FibonacciDataset(BaseDataset):

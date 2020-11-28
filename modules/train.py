@@ -2,9 +2,8 @@ from typing import List
 
 from tqdm import tqdm
 
-from network.jordan_network import Jordan
-from data.datasets import FibonacciDataset
-from data.base_dataset import BaseDataset
+from modules.network.jordan_network import Jordan
+from modules.data.base_dataset import BaseDataset
 
 
 def train_model(network: Jordan, dataset: BaseDataset, n_epochs: int) -> List[float]:

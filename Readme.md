@@ -25,6 +25,27 @@ pip install -r requirements.txt
 It will install all essential libraries
 
 
+### Config
+
+To use project with `start_training.py` you need to setup config. 
+Config is located in `config.py` Config class. Example:
+
+```
+class Config:
+    learning_rate = 0.0003
+    momentum = 0.1
+    num_epochs = 200_000
+
+    min_error = 0.05
+    dataset = 'fibonacci'
+
+    num_of_precalculated_values = 5
+    num_of_input_elements = 1
+
+    num_of_hidden_neurons = 7
+``` 
+
+
 ### Usage 
 
 After libraries installation you can ran training and evaluation for different

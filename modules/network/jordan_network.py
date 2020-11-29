@@ -104,10 +104,10 @@ class Jordan:
         last_layer_delta = mse_loss_der(y_pred=self.layers[-1],
                                         y_true=target)
 
-        print(f'Loss number: {loss_number}')
-        print(f'Y pred: {self.layers[-1]}')
-        print(f'Target: {target}')
-        print(f'=' * 15)
+        # print(f'Loss number: {loss_number}')
+        # print(f'Y pred: {self.layers[-1]}')
+        # print(f'Target: {target}')
+        # print(f'=' * 15)
 
         deltas.append(last_layer_delta)
 

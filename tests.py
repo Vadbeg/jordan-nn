@@ -158,14 +158,14 @@ def train_eval_exponent(verbose: bool = False) -> float:
 if __name__ == '__main__':
     verbose = True
 
-    # accuracy_fibonacci = train_eval_fibonacci(verbose=verbose)
-    # print(f'Fibonacci accuracy: {accuracy_fibonacci}')
-    #
-    # accuracy_period = train_eval_period(verbose=verbose)
-    # print(f'Period accuracy: {accuracy_period}')
+    accuracy_fibonacci = train_eval_fibonacci(verbose=verbose)
+    print(f'Fibonacci accuracy: {accuracy_fibonacci}')
+
+    accuracy_period = train_eval_period(verbose=verbose)
+    print(f'Period accuracy: {accuracy_period}')
 
     accuracy_factorial = train_eval_factorial(verbose=verbose)
     print(f'Factorial accuracy: {accuracy_factorial}')
 
-    # accuracy_exponent = train_eval_exponent(verbose=verbose)
-    # print(f'Exponent accuracy: {accuracy_exponent}')
+    accuracy_exponent = train_eval_exponent(verbose=verbose)
+    print(f'Exponent accuracy: {accuracy_exponent}')

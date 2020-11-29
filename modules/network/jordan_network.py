@@ -83,7 +83,7 @@ class Jordan:
         if len(self.shape) - 2 >= 0:
             last_idx = len(self.shape) - 1
 
-            self.layers[last_idx][...] = softmax(
+            self.layers[last_idx][...] = linear(
                 np.dot(self.layers[last_idx - 1], self.weights[last_idx - 1])
             )
 
@@ -94,17 +94,20 @@ class Jordan:
         Performs backpropagation on neural network.
 
         :param target: desired result
-        :param lr: learning rate
-        :param momentum: momentum of the NN optimizer
         :return: error of the network
         """
 
         deltas = list()
 
-        cross_entropy_loss_number = cross_entropy_loss(y_pred=self.layers[-1],
-                                                       y_true=target)
-        last_layer_delta = cross_entropy_loss_der(y_pred=self.layers[-1],
-                                                  y_true=target)
+        loss_number = mse_loss(y_pred=self.layers[-1],
+                               y_true=target)
+        last_layer_delta = mse_loss_der(y_pred=self.layers[-1],
+                                        y_true=target)
+
+        print(f'Loss number: {loss_number}')
+        print(f'Y pred: {self.layers[-1]}')
+        print(f'Target: {target}')
+        print(f'=' * 15)
 
         deltas.append(last_layer_delta)
 
@@ -125,7 +128,7 @@ class Jordan:
 
             self.dw[i] = curr_dw
 
-        return cross_entropy_loss_number
+        return loss_number
 
 
 if __name__ == '__main__':

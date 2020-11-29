@@ -21,19 +21,19 @@ def train_eval_fibonacci(verbose: bool = False) -> float:
     """
 
     config = {
-        'lr': 0.003,
+        'lr': 0.000003,
         'momentum': 0.1,
         'n_epochs': 500
     }
 
-    dataset = FibonacciDataset(max_dataset_length=12)
+    dataset = FibonacciDataset(number_of_precalculated_values=12, number_of_input_elements=2)
 
-    in_features = dataset.max_value * dataset.sequence_length
-    out_features = dataset.max_value
+    in_features = dataset.number_of_input_elements
+    out_features = 1
 
     network = Jordan(lr=config['lr'],
                      momentum=config['momentum'],
-                     shape=[in_features, 100, out_features])
+                     shape=[in_features, 10, out_features])
 
     errors_list = train_model(network=network,
                               dataset=dataset,
@@ -59,13 +59,13 @@ def train_eval_period(verbose: bool = False) -> float:
     config = {
         'lr': 0.003,
         'momentum': 0.1,
-        'n_epochs': 5000
+        'n_epochs': 500
     }
 
-    dataset = PeriodDataset(max_dataset_length=39)
+    dataset = PeriodDataset(number_of_precalculated_values=12, number_of_input_elements=3)
 
-    in_features = len(dataset.ohe_mapped_values) * dataset.sequence_length
-    out_features = len(dataset.ohe_mapped_values)
+    in_features = dataset.number_of_input_elements
+    out_features = 1
 
     network = Jordan(lr=config['lr'],
                      momentum=config['momentum'],
@@ -93,19 +93,19 @@ def train_eval_factorial(verbose: bool = False) -> float:
     """
 
     config = {
-        'lr': 0.0003,
+        'lr': 0.000003,
         'momentum': 0.1,
-        'n_epochs': 5000
+        'n_epochs': 50_000
     }
 
-    dataset = FactorialDataset(max_dataset_length=5)
+    dataset = FactorialDataset(number_of_precalculated_values=5, number_of_input_elements=1)
 
-    in_features = dataset.max_value
-    out_features = dataset.max_value
+    in_features = dataset.number_of_input_elements
+    out_features = 1
 
     network = Jordan(lr=config['lr'],
                      momentum=config['momentum'],
-                     shape=[in_features, 100, out_features])
+                     shape=[in_features, 10, out_features])
 
     errors_list = train_model(network=network,
                               dataset=dataset,
@@ -129,19 +129,19 @@ def train_eval_exponent(verbose: bool = False) -> float:
     """
 
     config = {
-        'lr': 0.0003,
+        'lr': 0.00003,
         'momentum': 0.1,
-        'n_epochs': 5000
+        'n_epochs': 10_000
     }
 
-    dataset = ExponentialDataset(max_dataset_length=5)
+    dataset = ExponentialDataset(number_of_precalculated_values=6, number_of_input_elements=3)
 
-    in_features = dataset.max_value
-    out_features = dataset.max_value
+    in_features = dataset.number_of_input_elements
+    out_features = 1
 
     network = Jordan(lr=config['lr'],
                      momentum=config['momentum'],
-                     shape=[in_features, 100, out_features])
+                     shape=[in_features, 10, out_features])
 
     errors_list = train_model(network=network,
                               dataset=dataset,
@@ -158,14 +158,14 @@ def train_eval_exponent(verbose: bool = False) -> float:
 if __name__ == '__main__':
     verbose = True
 
-    accuracy_fibonacci = train_eval_fibonacci(verbose=verbose)
-    print(f'Fibonacci accuracy: {accuracy_fibonacci}')
-
-    accuracy_period = train_eval_period(verbose=verbose)
-    print(f'Period accuracy: {accuracy_period}')
+    # accuracy_fibonacci = train_eval_fibonacci(verbose=verbose)
+    # print(f'Fibonacci accuracy: {accuracy_fibonacci}')
+    #
+    # accuracy_period = train_eval_period(verbose=verbose)
+    # print(f'Period accuracy: {accuracy_period}')
 
     accuracy_factorial = train_eval_factorial(verbose=verbose)
     print(f'Factorial accuracy: {accuracy_factorial}')
 
-    accuracy_exponent = train_eval_exponent(verbose=verbose)
-    print(f'Exponent accuracy: {accuracy_exponent}')
+    # accuracy_exponent = train_eval_exponent(verbose=verbose)
+    # print(f'Exponent accuracy: {accuracy_exponent}')

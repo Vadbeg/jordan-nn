@@ -44,7 +44,8 @@ def train_model(network: Jordan, dataset: BaseDataset, n_epochs: int) -> List[fl
 
 
 def train_model_min_error(network: Jordan, dataset: BaseDataset,
-                          n_epochs: int, min_error: float) -> List[float]:
+                          n_epochs: int, min_error: float,
+                          verbose: bool = True) -> List[float]:
     """
     Performs model training
 
@@ -52,10 +53,11 @@ def train_model_min_error(network: Jordan, dataset: BaseDataset,
     :param dataset: dataset for training
     :param n_epochs: number of  epochs we want to train
     :param min_error: error we want to reach
+    :param verbose: if True shows progress bar
     :return: list of average epoch errors
     """
 
-    tqdm_epochs = tqdm(range(n_epochs), postfix=f'Epochs...')
+    tqdm_epochs = tqdm(range(n_epochs), postfix=f'Epochs...', disable=not verbose)
 
     total_error_list = list()
 

@@ -14,9 +14,12 @@ from modules.network.utils import (sigmoid, sigmoid_der,
 class Jordan:
     """Jordan network"""
 
-    def __init__(self, lr: float, momentum: float, shape: List[int]):
+    def __init__(self, lr: float,
+                 momentum: float,
+                 shape: List[int], make_zero_context: bool = False):
         self.lr = lr
         self.momentum = momentum
+        self.make_zero_context = make_zero_context
 
         self.shape = shape
 
@@ -73,7 +76,11 @@ class Jordan:
         """
 
         self.layers[0][0: self.shape[0]] = x
-        self.layers[0][self.shape[0]: -1] = self.layers[-1]
+
+        if self.make_zero_context:
+            self.layers[0][self.shape[0]: -1] = np.zeros_like(self.layers[-1])
+        else:
+            self.layers[0][self.shape[0]: -1] = self.layers[-1]
 
         for i in range(1, len(self.shape) - 1):
             self.layers[i][...] = linear(
@@ -103,11 +110,6 @@ class Jordan:
                                y_true=target)
         last_layer_delta = mse_loss_der(y_pred=self.layers[-1],
                                         y_true=target)
-
-        # print(f'Loss number: {loss_number}')
-        # print(f'Y pred: {self.layers[-1]}')
-        # print(f'Target: {target}')
-        # print(f'=' * 15)
 
         deltas.append(last_layer_delta)
 

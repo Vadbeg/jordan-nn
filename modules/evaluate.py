@@ -11,12 +11,14 @@ def eval_model(network: Jordan, dataset: BaseDataset):
 
     for input_values, true_prediction in dataset:
         result = network.propagate_forward(x=input_values)
-        result = result.tolist()[0]
+        result = result.tolist()
+
+        result = [int(round(curr_result)) for curr_result in result]
 
         try:
-            pred_num = int(round(result))
+            print(f'Input: {input_values}, Pred num: {result}. True: {true_prediction}')
 
-            if true_prediction == pred_num:
+            if true_prediction == result:
                 results_array.append(1)
             else:
                 results_array.append(0)
